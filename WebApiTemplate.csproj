@@ -99,7 +99,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bower.json" />
     <Content Include="Configurations\local\Web.config" />
     <Content Include="Configurations\dev\Web.config" />
     <None Include="Configurations\dev\Web.Debug.config">
