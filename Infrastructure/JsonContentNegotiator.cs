@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 
-namespace WebApiTemplate.App_Start
+namespace WebApiTemplate.Infrastructure
 {
     public class JsonContentNegotiator : IContentNegotiator
     {

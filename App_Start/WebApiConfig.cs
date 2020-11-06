@@ -1,12 +1,13 @@
-﻿using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
+﻿using Autofac;
+using Autofac.Integration.WebApi;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http.Formatting;
+using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using WebApiTemplate.App_Start;
+using WebApiTemplate.Infrastructure;
 
 namespace WebApiTemplate
 {
@@ -39,10 +40,35 @@ namespace WebApiTemplate
             //optional: set serializer settings here
             config.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(jsonFormatter));
 
-            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            var serializerSettings = config.Formatters.JsonFormatter.SerializerSettings;
+            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            serializerSettings.Formatting = Formatting.Indented;
             config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
 
             #endregion JSON Configuration
+
+            ConfigureDependencyInjection(config);
+        }
+
+        public static void ConfigureDependencyInjection(HttpConfiguration config)
+        {
+
+            var builder = new ContainerBuilder();
+
+            // Register your Web API controllers.
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            builder.RegisterModule<AutoFacModule>();
+
+            // OPTIONAL: Register the Autofac filter provider.
+            builder.RegisterWebApiFilterProvider(config);
+
+            // OPTIONAL: Register the Autofac model binder provider.
+            builder.RegisterWebApiModelBinderProvider();
+
+            // Set the dependency resolver to be Autofac.
+            var container = builder.Build();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }
