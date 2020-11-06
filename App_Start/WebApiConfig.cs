@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using WebApiTemplate.App_Start;
 
 namespace WebApiTemplate
@@ -13,6 +15,14 @@ namespace WebApiTemplate
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+
+            #region CORS
+
+            var origins = ConfigurationManager.AppSettings["Origins"];
+            var corsAttr = new EnableCorsAttribute(origins, "*", "*");
+            config.EnableCors(corsAttr);
+
+            #endregion CORS
 
             // Web API routes
             config.MapHttpAttributeRoutes();
