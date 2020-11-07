@@ -1,17 +1,22 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApiTemplate.Infrastructure;
+using WebApiTemplate.Infrastructure.Logging;
 
-namespace WebApiTemplate.Controllers
+namespace WebApiTemplate.Domain.Values
 {
     public class ValuesController : ApiController
     {
+
         // GET: api/Values
         public IEnumerable<string> Get()
         {
+            Logger.Debug("Hello World!");
             return new string[] { "value1", "value2" };
         }
 

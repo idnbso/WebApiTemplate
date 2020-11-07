@@ -1,13 +1,22 @@
 ﻿using Autofac;
+using Autofac.Extras.CommonServiceLocator;
 using Autofac.Integration.WebApi;
+using CommonServiceLocator;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Serilog;
+using Serilog.Formatting.Compact;
+using Serilog.Formatting.Json;
+using System;
 using System.Configuration;
+using System.IO;
 using System.Net.Http.Formatting;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.ExceptionHandling;
 using WebApiTemplate.Infrastructure;
+using WebApiTemplate.Infrastructure.Logging;
 
 namespace WebApiTemplate
 {
@@ -48,6 +57,8 @@ namespace WebApiTemplate
             #endregion JSON Configuration
 
             ConfigureDependencyInjection(config);
+
+            config.Services.Add(typeof(IExceptionLogger), new GlobalExceptionLogger());
         }
 
         public static void ConfigureDependencyInjection(HttpConfiguration config)
@@ -69,6 +80,9 @@ namespace WebApiTemplate
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+
+            var autofacServiceLocator = new AutofacServiceLocator(container);
+            ServiceLocator.SetLocatorProvider(() => autofacServiceLocator);
         }
     }
 }

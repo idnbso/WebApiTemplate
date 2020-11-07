@@ -21,6 +21,12 @@
 - Serilog
   * [Configuration](https://medium.com/@matthew.bajorek/configuring-serilog-in-asp-net-core-2-2-web-api-5e0f4d89749c)
   * NuGet Packages
-    *  
+	- Serilog
+    - Serilog.Sinks.File
+    - Serilog.Sinks.Async
+    - Serilog.Formatting.Compact
+    - SerilogWeb.Classic.WebApi
+    - Serilog.Enrichers.Thread
+    - Serilog.Exceptions
 - Dapper
-  - [Install Dapper.SimpleRepository NuGet](https://www.nuget.org/packages/Dapper.SimpleRepository/)
+  - [Install Dapper.SimpleCRUD NuGet](https://www.nuget.org/packages/Dapper.SimpleCRUD)
