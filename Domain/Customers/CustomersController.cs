@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using WebApiTemplate.Infrastructure.Logging;
 
 namespace WebApiTemplate.Domain.Customers
 {
@@ -21,7 +22,18 @@ namespace WebApiTemplate.Domain.Customers
         // GET: api/customers
         public async Task<IHttpActionResult> Get()
         {
-            var customers = await service.GetAllCustomers();
+            IEnumerable<CustomerDTO> customers;
+
+            try
+            {
+                customers = await service.GetAllCustomers();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "CustomersService.GetAllCustomers encountered an exception.");
+                return InternalServerError();
+            }
+
             return Ok(customers);
         }
 

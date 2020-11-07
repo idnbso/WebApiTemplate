@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using WebApiTemplate.Domain.Customers;
 
 namespace WebApiTemplate.Infrastructure

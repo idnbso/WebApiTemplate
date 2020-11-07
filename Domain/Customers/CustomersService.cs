@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using WebApiTemplate.Infrastructure.Data;
+using WebApiTemplate.Infrastructure.Logging;
 
 namespace WebApiTemplate.Domain.Customers
 {
     public class CustomersService
     {
-        private IMapper mapper;
+        private readonly IMapper mapper;
 
         public CustomersService(IMapper mapper)
         {
@@ -24,7 +25,6 @@ namespace WebApiTemplate.Domain.Customers
             using (var uow = new UnitOfWork())
             {
                 customers = await uow.CustomerRepository.GetAllCustomers();
-
             }
 
             return mapper.Map<IEnumerable<Customer>, IEnumerable<CustomerDTO>>(customers);

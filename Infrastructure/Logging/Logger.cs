@@ -2,9 +2,6 @@
 using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace WebApiTemplate.Infrastructure.Logging
 {
@@ -16,8 +13,11 @@ namespace WebApiTemplate.Infrastructure.Logging
         {
             _logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.Async(a => a.File(formatter: new CompactJsonFormatter(), path: @"c:/logs/web-api-template/log-.txt",
-                                rollingInterval: RollingInterval.Day, shared: true))
+                .WriteTo.Async(a => a.File(
+                    formatter: new RenderedCompactJsonFormatter(),
+                    path: @"c:/logs/web-api-template/log-.json",
+                    rollingInterval: RollingInterval.Day,
+                    shared: true))
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName()
                 .Enrich.WithHttpRequestId()
@@ -52,6 +52,5 @@ namespace WebApiTemplate.Infrastructure.Logging
         {
             _logger.Error(error, propertyValues);
         }
-
     }
 }

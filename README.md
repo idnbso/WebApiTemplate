@@ -25,8 +25,8 @@
     - Serilog.Sinks.File
     - Serilog.Sinks.Async
     - Serilog.Formatting.Compact
-    - SerilogWeb.Classic.WebApi
     - Serilog.Enrichers.Thread
     - Serilog.Exceptions
+    - SerilogWeb.Classic.WebApi
 - Dapper
   - [Install Dapper.SimpleCRUD NuGet](https://www.nuget.org/packages/Dapper.SimpleCRUD)

@@ -1,12 +1,6 @@
 ﻿using Autofac;
-using Autofac.Core;
 using AutoMapper;
-using Serilog;
-using Serilog.Formatting.Compact;
-using System;
-using System.Configuration;
 using WebApiTemplate.Domain.Customers;
-using WebApiTemplate.Infrastructure.Data;
 
 namespace WebApiTemplate.Infrastructure
 {
@@ -30,8 +24,6 @@ namespace WebApiTemplate.Infrastructure
             })
             .As<IMapper>()
             .InstancePerLifetimeScope();
-
-            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString();
 
             builder.RegisterType<CustomersService>()
                    .InstancePerLifetimeScope();
