@@ -47,12 +47,12 @@ namespace WebApiTemplate
 
             var jsonFormatter = new JsonMediaTypeFormatter();
             //optional: set serializer settings here
-            config.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(jsonFormatter));
 
-            var serializerSettings = config.Formatters.JsonFormatter.SerializerSettings;
+            var serializerSettings = jsonFormatter.SerializerSettings;
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             serializerSettings.Formatting = Formatting.Indented;
-            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
+            jsonFormatter.UseDataContractJsonSerializer = false;
+            config.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(jsonFormatter));
 
             #endregion JSON Configuration
 
