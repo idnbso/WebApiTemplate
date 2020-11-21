@@ -45,14 +45,22 @@ namespace WebApiTemplate
 
             #region JSON Configuration
 
-            var jsonFormatter = new JsonMediaTypeFormatter();
-            //optional: set serializer settings here
+            if (ConfigurationManager.AppSettings["Environment"] != "local")
+            {
+                var serializerSettings = config.Formatters.JsonFormatter.SerializerSettings;
+                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                serializerSettings.Formatting = Formatting.Indented;
+            }
+            else
+            {
+                var jsonFormatter = new JsonMediaTypeFormatter();
+                var serializerSettings = jsonFormatter.SerializerSettings;
 
-            var serializerSettings = jsonFormatter.SerializerSettings;
-            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            serializerSettings.Formatting = Formatting.Indented;
-            jsonFormatter.UseDataContractJsonSerializer = false;
-            config.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(jsonFormatter));
+                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                serializerSettings.Formatting = Formatting.Indented;
+                jsonFormatter.UseDataContractJsonSerializer = false;
+                config.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(jsonFormatter));
+            }
 
             #endregion JSON Configuration
 
