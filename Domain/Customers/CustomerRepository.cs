@@ -21,5 +21,10 @@ namespace WebApiTemplate.Domain.Customers
         {
             return await Connection.GetListAsync<Customer>(null, transaction: Transaction);
         }
+
+        public async Task<int?> AddCustomer(Customer customer)
+        {
+            return await Connection.InsertAsync(customer, transaction: Transaction);
+        }
     }
 }

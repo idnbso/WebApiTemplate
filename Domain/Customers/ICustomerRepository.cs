@@ -9,5 +9,6 @@ namespace WebApiTemplate.Domain.Customers
     public interface ICustomerRepository
     {
         Task<IEnumerable<Customer>> GetAllCustomers();
+        Task<int?> AddCustomer(Customer customer);
     }
 }

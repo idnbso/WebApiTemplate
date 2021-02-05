@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiTemplate.Infrastructure.Logging;
@@ -12,10 +14,12 @@ namespace WebApiTemplate.Domain.Customers
     // api/customers
     public class CustomersController : ApiController
     {
+        private readonly IMediator mediator;
         private readonly CustomersService service;
 
-        public CustomersController(CustomersService service)
+        public CustomersController(IMediator mediator, CustomersService service)
         {
+            this.mediator = mediator;
             this.service = service;
         }
 
@@ -44,8 +48,12 @@ namespace WebApiTemplate.Domain.Customers
         }
 
         // POST: api/customers
-        public void Post([FromBody]string value)
+        [HttpPost]
+        public async Task<IHttpActionResult> Post(CancellationToken cancellationToken, [FromBody] CustomerAddCommand command)
         {
+            await this.mediator.Send(command, cancellationToken);
+
+            return Ok();
         }
 
         // PUT: api/customers/5

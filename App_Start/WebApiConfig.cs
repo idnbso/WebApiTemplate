@@ -2,12 +2,14 @@
 using Autofac.Extras.CommonServiceLocator;
 using Autofac.Integration.WebApi;
 using CommonServiceLocator;
+using MediatR.Extensions.Autofac.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using Serilog.Formatting.Compact;
 using Serilog.Formatting.Json;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net.Http.Formatting;
@@ -15,6 +17,7 @@ using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.ExceptionHandling;
+using WebApiTemplate.Domain.Customers;
 using WebApiTemplate.Infrastructure;
 using WebApiTemplate.Infrastructure.Logging;
 
@@ -84,6 +87,8 @@ namespace WebApiTemplate
 
             // OPTIONAL: Register the Autofac model binder provider.
             builder.RegisterWebApiModelBinderProvider();
+
+            builder.RegisterMediatR(MediatRConfiguration.GetAssemblies());
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
